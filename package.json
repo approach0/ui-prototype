@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "css-loader": "^1.0.0",
+    "file-loader": "^1.1.11",
+    "material-icons": "^0.2.3",
+    "style-loader": "^0.21.0",
+    "vue": "^2.5.16",
+    "vue-loader": "^15.2.6",
+    "vue-template-compiler": "^2.5.16",
+    "vuesax": "^3.1.48",
+    "webpack": "3.9"
+  }
+}
