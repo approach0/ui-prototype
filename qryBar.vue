@@ -1,8 +1,9 @@
 <template>
 <v-app>
+
 <div style="padding: 1em 1em 0em 1em;">
   <v-layout>
-    <v-toolbar-side-icon @click="test('menu')"></v-toolbar-side-icon>
+    <v-toolbar-side-icon @click="menu = !menu; drawer_set(false)"></v-toolbar-side-icon>
     <v-text-field placeholder="Search"
       solo
       autofocus
@@ -13,16 +14,82 @@
     <v-btn color="info" @click.stop="drawer_set(true)"><v-icon>search</v-icon></v-btn>
   </v-layout>
 </div>
+
 <div style="position: relative; height: 100%">
-  <img style="width: 100%; max-height: 700px" src="https://www.iwantwallpaper.co.uk/images/muriva-bluff-embossed-brick-effect-wallpaper-j30309-p711-1303_image.jpg"/>
+
   <v-container fluid>
+
+    <v-jumbotron :gradient="'to top right, rgba(63,81,181, .7), rgba(25,32,72, .7)'" dark
+      src="./background.jpg" height="600px">
+      <v-container fill-height>
+        <v-layout align-center>
+          <v-flex text-xs-center>
+            <h3 class="display-3">Hello World!</h3>
+            <v-progress-circular indeterminate color="green">
+            </v-progress-circular>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-jumbotron>
+
+    <v-navigation-drawer v-model="menu" absolute>
+      <v-toolbar flat>
+        <v-list><v-list-tile>
+        <v-list-title class="title"> Settings </v-list-title>
+        </v-list-tile></v-list>
+      </v-toolbar>
+
+      <v-divider></v-divider>
+
+      <v-list dense class="pt-0">
+
+        <v-list-tile @click="">
+          <v-list-tile-action>
+            <v-icon> star </v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-title> Star deck </v-list-title>
+          </v-list-tile-content>
+        </v-list-tile>
+
+        <v-list-tile @click="">
+          <v-list-tile-action>
+            <v-icon> help </v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-title> Guide </v-list-title>
+          </v-list-tile-content>
+        </v-list-tile>
+
+        <v-list-tile @click="">
+          <v-list-tile-action>
+            <v-icon> gavel </v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-title> Raw query </v-list-title>
+          </v-list-tile-content>
+        </v-list-tile>
+
+        <v-list-tile @click="">
+          <v-list-tile-action>
+            <v-icon> apps </v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-title> Common LaTeX symbols </v-list-title>
+          </v-list-tile-content>
+        </v-list-tile>
+
+      </v-list>
+    </v-navigation-drawer>
 
     <v-navigation-drawer v-model="drawer" width="800"
      right stateless temporary absolute>
-<div class="tab" @click="drawer_set(!drawer)" style="left: -25px">
-<v-icon v-if="!drawer">navigate_before</v-icon>
-<v-icon v-else>navigate_next</v-icon>
-</div>
+     <!-- tab BEGIN -->
+     <div class="tab" @click="drawer_set(!drawer)" style="left: -25px">
+       <v-icon v-if="!drawer">navigate_before</v-icon>
+       <v-icon v-else>navigate_next</v-icon>
+     </div>
+     <!-- tab END -->
     <div style="height: 100%; overflow: auto;">
       <v-container>
       <ul>
@@ -38,11 +105,18 @@
       </v-container>
     </div>
     </v-navigation-drawer>
-
   </v-container>
 </div>
+
+<v-footer>
+  <v-layout justify-center>
+    <v-flex primary py-2 text-xs-center white--text xs12>
+      &copy; {{ new Date().getFullYear() }} — <strong>MathSeer</strong>
+    </v-flex>
+  </v-layout>
+</v-footer>
+
 </v-app>
-</div>
 </template>
 <script>
 const mockup_hits = require("./mockup-hits.json")
@@ -53,6 +127,7 @@ export default {
     return {
       'page': 2,
       'drawer': false,
+      'menu': false,
       'hits': mockup_hits.hits
     }
   },
@@ -78,6 +153,18 @@ export default {
   }
 }
 /*
+  <v-jumbotron :gradient="'to top right, rgba(63,81,181, .7), rgba(25,32,72, .7)'" dark
+    src="./background.jpg" height="100%">
+    <v-container fill-height>
+      <v-layout align-center>
+        <v-flex text-xs-center>
+          <h3 class="display-3">Hello World!</h3>
+          <v-progress-circular indeterminate color="green">
+          </v-progress-circular>
+        </v-flex>
+      </v-layout>
+    </v-container>
+  </v-jumbotron>
 */
 </script>
 
@@ -99,8 +186,11 @@ div.tab {
   top: 50px;
   width: 25px;
   height: 50px;
-  background-color: white;
   padding-top: 12px;
-  cursor: pointer;
+  background-color: white;
+  -webkit-box-shadow: -2px 0px 1px 2px rgba(0,0,0,0.2);  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow:    -2px 0px 1px 2px rgba(0,0,0,0.2);  /* Firefox 3.5 - 3.6 */
+  box-shadow:         -2px 0px 1px 2px rgba(0,0,0,0.2);  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
 }
+
 </style>
