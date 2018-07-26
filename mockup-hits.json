@@ -1,0 +1,33 @@
+{
+	"hits": [
+	{
+		"title": "Calculate Rotation Matrix to align Vector A to Vector B in 3d?",
+		"url": "http://math.stackexchange.com/questions/180418/calculate-rotation-matrix-to-align-vector-a-to-vector-b-in-3d",
+		"snippet": "ection of the axis from the data, not its position. You can choose the position arbitrarily, e.g. through the origin, and choose the translation accordingly.  Suppose you want to find a rotation matrix [imath]R[\/imath] that rotates unit vector [imath]a[\/imath] onto unit vector [imath]b[\/imath]. Proceed as follows: Let <em class=\"hl\">[imath]v = a \\times b[\/imath]<\/em>"
+	}, {
+		"docid": 70893,
+		"score": 10148.296,
+		"title": "Product rule for certain vector valued functions, or possibly a higher order Chain Rule",
+		"url": "http://math.stackexchange.com/questions/2080929/product-rule-for-certain-vector-valued-functions-or-possibly-a-higher-order-cha",
+		"snippet": ",} \\gamma = \\beta \\circ \\alpha,[\/imath] but also isn't, because upon writing [imath]A = Df: U \\to L(\\mathbb{R}^n,\\mathbb{R}^m) \\\\ B = (Dg) \\circ f : U \\to L(\\mathbb{R}^m,\\mathbb{R}^p) \\\\ C = D(g \\circ f): U \\to L(\\mathbb{R}^n,\\mathbb{R}^p),[\/imath]  [imath](1)[\/imath] becomes [imath]C(p) = B(p) \\circ A(p)[\/imath], and <em class=\"hl\">[imath]C = B \\cdot A[\/imath]<\/em>, where [imath]\\cdot[\/imath] is a form of multiplication rather than function composition ([imath]B \\circ A[\/imath] makes no sense, as their source and target spaces make them incompatible with function composition). Apparently, a form of product rule is needed to find the total derivative of <em class=\"hl\">[imath]C = B \\cdot A[\/imath]<\/em>. I'm aware that both [imath]A,B[\/imath] are Frechet differentiable (presuming [imath]k>1[\/imath]), but I'm not aware of a product rule regarding total differentiation of anything other than a product of real valued functions. Is there such a rule? I suspect there is a higher order chain rule as well, yet that which u ... "
+	}, {
+		"docid": 163990,
+		"score": 10148.296,
+		"title": "Orthogonal projection formula",
+		"url": "http://math.stackexchange.com/questions/470995/orthogonal-projection-formula",
+		"snippet": "normal? Why does it not hold that the projection is [imath] \\sum \\langle v,u_i \\rangle u_i[\/imath] if [imath]u_i[\/imath] is any basis? And what is [imath] \\sum {\\langle v,u_i \\rangle \\over \\|u_i\\|^2} u_i[\/imath]? Is it an orthognal projection?  For a projection [imath]A[\/imath] onto [imath]U[\/imath], there has to be <em class=\"hl\">[imath]uA=u[\/imath]<\/em> for any [imath]u\\in U[\/imath]. So try [imath]u_j[\/imath] in your formula: [imath]\\sum_{i=1}^k\\frac{\\langle u_j,u_i\\rangle u_i}{\\langle u_i,u_i\\rangle}=u_j[\/imath] Because [imath]\\{u_i\\}[\/imath] is a basis, we have [imath]\\langle u_j,u_i\\rangle=0[\/imath] when [imath]i\\neq j[\/imath]. That shows [imath]\\{u_i\\}[\/imath] s ... "
+	}, {
+		"docid": 108421,
+		"score": 10148.296,
+		"title": "Proof on gcd divisor",
+		"url": "http://math.stackexchange.com/questions/1889751/proof-on-gcd-divisor",
+		"snippet": "Proof on gcd divisor  Proof on gcd divisor. Having some trouble even understanding where to start for this example question:  If [imath]\\gcd(a,b)=c[\/imath], this implies that <em class=\"hl\">[imath]a=CA[\/imath]<\/em> and that <em class=\"hl\">[imath]b=CB[\/imath]<\/em> where [imath]A[\/imath] and [imath]B[\/imath] are coprime integers.  So [imath]ab=c^2AB[\/imath]. So [imath]c^2|ab[\/imath].  It also follows if you look at their prime factorizations. Suppose that [imath]a=p_1^{a_1}\\cdots p_m^{a_m}[\/imath] and [imath]b=p_1^{b_1}\\cdots p_m^{b_m}.[\/imath] Then [imath]c=p_1^{\\min\\{a_1,b_1\\ ... "
+	}, {
+		"docid": 66823,
+		"score": 10148.296,
+		"title": "Left inverse [imath]B[\/imath] of a square [imath]n[\/imath] x [imath]n[\/imath] matrix [imath]A \\Rightarrow \\exists[\/imath] right inverse [imath]C[\/imath] of [imath]A[\/imath]?",
+		"url": "http://math.stackexchange.com/questions/571646/left-inverse-b-of-a-square-n-x-n-matrix-a-rightarrow-exists-right-inve",
+		"snippet": "[\/imath] x [imath]n[\/imath] matrix [imath]A[\/imath] exist. Does this imply that a right inverse [imath]C[\/imath] of [imath]A[\/imath] exist ? Also, if this is true - is the implication also true in the case of a right inverse [imath]B[\/imath] ? Thanks.  Yes, If [imath]A[\/imath] has a left-inverse [imath]B[\/imath], then <em class=\"hl\">[imath]BA = I[\/imath]<\/em>, and so [imath]A[\/imath] is injective (as a linear map). But it is a linear operator on a finite dimensional space, so it is also surjective, and so it has a right-inverse. ... "
+	}
+	]
+}

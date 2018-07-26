@@ -1,11 +1,11 @@
 import Vue from 'vue'
-import Vuesax from 'vuesax'
+import Vuetify from 'vuetify'
 import qryBar from './qryBar.vue'
 
-import 'vuesax/dist/vuesax.css'
 import 'material-icons/iconfont/material-icons.css'
+import 'vuetify/dist/vuetify.min.css'
 
-Vue.use(Vuesax)
+Vue.use(Vuetify)
 
 new Vue({
   el: '#qry_bar',
