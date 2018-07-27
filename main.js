@@ -4,6 +4,7 @@ import qryBar from './qryBar.vue'
 
 import 'material-icons/iconfont/material-icons.css'
 import 'vuetify/dist/vuetify.min.css'
+import 'myscript/dist/myscript.min.css'
 
 Vue.use(Vuetify)
 

@@ -17,20 +17,20 @@
 
 <div style="position: relative; height: 100%">
 
-  <v-container fluid>
+  <v-container fluid fill-height>
 
-    <v-jumbotron :gradient="'to top right, rgba(63,81,181, .7), rgba(25,32,72, .7)'" dark
-      src="./background.jpg" height="600px">
+
       <v-container fill-height>
         <v-layout align-center>
           <v-flex text-xs-center>
-            <h3 class="display-3">Hello World!</h3>
+            <div class="editor" ref="editor"></div>
+            <!--
             <v-progress-circular indeterminate color="green">
             </v-progress-circular>
+            -->
           </v-flex>
         </v-layout>
       </v-container>
-    </v-jumbotron>
 
     <v-navigation-drawer v-model="menu" absolute>
       <v-toolbar flat>
@@ -111,7 +111,7 @@
 <v-footer>
   <v-layout justify-center>
     <v-flex primary py-2 text-xs-center white--text xs12>
-      &copy; {{ new Date().getFullYear() }} — <strong>MathSeer</strong>
+      &copy; {{ new Date().getFullYear() }} — <strong>Approach0</strong>
     </v-flex>
   </v-layout>
 </v-footer>
@@ -120,6 +120,7 @@
 </template>
 <script>
 const mockup_hits = require("./mockup-hits.json")
+var MyScript = require('myscript/dist/myscript.min.js')
 var $ = require('jquery')
 
 export default {
@@ -134,6 +135,53 @@ export default {
   created: function () {
     console.log('created!');
     $(document).ready(function() {
+    });
+  },
+  mounted: function () {
+    console.log("mounted!");
+
+    $(this.$refs['editor']).on("exported", function (evt) {
+      console.log(evt.detail.exports)
+    });
+
+    $(window).resize(function () {
+      var editorEle = this.$refs['editor'];
+      editorEle.editor.resize();
+    });
+
+    MyScript.register(this.$refs.editor, {
+    triggers: {
+          exportContent: 'QUIET_PERIOD'
+              },
+      recognitionParams: {
+        type: 'MUSIC',
+        protocol: 'REST',
+        apiVersion: 'V3',
+          server: {
+            scheme: 'https',
+            // ---  web demo keys ---
+            //host: 'webdemoapi.myscript.com',
+            //applicationKey: '515131ab-35fa-411c-bb4d-3917e00faf60',
+            //hmacKey: '54b2ca8a-6752-469d-87dd-553bb450e9ad'
+            // ---  cloud account keys ---
+            host: 'cloud.myscript.com',
+            applicationKey: '37596f3c-760b-4f58-92c8-c59826f4144b',
+            hmacKey: '765e7703-1f29-4dfa-82af-201f8522abba'
+          },
+          v3: {
+                  musicParameter: {
+                            resultTypes: ['MUSICXML']
+                                    }
+                                          },
+          v4: {
+                  musicParameter: {
+                            resultTypes: ['MUSICXML']
+                                    },
+            math: {
+              mimeTypes: ['application/x-latex']
+            }
+          }
+        }
     });
   },
   methods: {
@@ -165,6 +213,7 @@ export default {
       </v-layout>
     </v-container>
   </v-jumbotron>
+  border: 2px solid #333;
 */
 </script>
 
@@ -193,4 +242,15 @@ div.tab {
   box-shadow:         -2px 0px 1px 2px rgba(0,0,0,0.2);  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
 }
 
+div.editor {
+  min-height: 600px;
+  width: 90%;
+  margin: 5px 30px 5px 30px;
+  background-color:rgba(255, 255, 255, 0.9);
+  touch-action: none;
+  border: 1px solid #D7DDE3;
+}
+.ms-editor {
+  z-index: 0 !important;
+}
 </style>
