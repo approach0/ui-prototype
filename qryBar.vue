@@ -150,13 +150,10 @@ export default {
     });
 
     MyScript.register(this.$refs.editor, {
-    triggers: {
-          exportContent: 'QUIET_PERIOD'
-              },
       recognitionParams: {
-        type: 'MUSIC',
-        protocol: 'REST',
-        apiVersion: 'V3',
+        type: 'MATH',
+        protocol: 'WEBSOCKET',
+        apiVersion: 'V4',
           server: {
             scheme: 'https',
             // ---  web demo keys ---
@@ -168,15 +165,7 @@ export default {
             applicationKey: '37596f3c-760b-4f58-92c8-c59826f4144b',
             hmacKey: '765e7703-1f29-4dfa-82af-201f8522abba'
           },
-          v3: {
-                  musicParameter: {
-                            resultTypes: ['MUSICXML']
-                                    }
-                                          },
           v4: {
-                  musicParameter: {
-                            resultTypes: ['MUSICXML']
-                                    },
             math: {
               mimeTypes: ['application/x-latex']
             }
