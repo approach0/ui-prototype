@@ -1,5 +1,5 @@
 <template>
-<v-app>
+<v-app light>
 
 <div style="padding: 1em 1em 0em 1em;">
   <v-layout>
@@ -27,6 +27,7 @@
     <v-container fluid fill-height>
       <v-layout justify-center align-start fill-height>
         <div class="editor" ref="editor"
+		 v-bind:style="{background: paper_color}"
          v-touch:tap="on_stroke"
          v-touch:swipe="on_stroke">
         </div>
@@ -123,6 +124,7 @@
 </template>
 <script>
 const mockup_hits = require("./mockup-hits.json")
+const colors = require('vuetify/es5/util/colors')
 var MyScript = require('myscript/dist/myscript.min.js')
 var $ = require('jquery')
 
@@ -134,6 +136,7 @@ export default {
       'menu': false,
       'editor_latex': '',
       'recognizing': false,
+	  'paper_color': colors['default'].grey.lighten3,
       'hits': mockup_hits.hits
     }
   },
@@ -254,7 +257,6 @@ div.editor {
   width: 100%;
   margin-left: 30px;
   margin-right: 30px;
-  background-color:rgba(255, 255, 255, 0.9);
   touch-action: none;
 }
 .ms-editor {

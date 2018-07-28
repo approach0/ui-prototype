@@ -7,7 +7,8 @@ import 'material-icons/iconfont/material-icons.css'
 import 'vuetify/dist/vuetify.min.css'
 import 'myscript/dist/myscript.min.css'
 
-Vue.use(Vuetify)
+Vue.use(Vuetify);
+
 Vue.use(Vue2TouchEvents)
 
 new Vue({
