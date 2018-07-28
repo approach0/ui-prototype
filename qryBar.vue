@@ -256,7 +256,6 @@ div.editor {
   margin-right: 30px;
   background-color:rgba(255, 255, 255, 0.9);
   touch-action: none;
-  border: 1px solid #D7DDE3;
 }
 .ms-editor {
   z-index: 0 !important;
