@@ -159,16 +159,19 @@ export default {
     });
 
     MyScript.register(this.$refs.editor, {
+      triggers: {
+        exportContent: 'QUIET_PERIOD'
+      },
       recognitionParams: {
         type: 'MATH',
-        protocol: 'WEBSOCKET',
+        protocol: 'REST',
         apiVersion: 'V4',
           server: {
             scheme: 'https',
             // ---  web demo keys ---
-            //host: 'webdemoapi.myscript.com',
-            //applicationKey: '515131ab-35fa-411c-bb4d-3917e00faf60',
-            //hmacKey: '54b2ca8a-6752-469d-87dd-553bb450e9ad'
+            // host: 'webdemoapi.myscript.com',
+            // applicationKey: '515131ab-35fa-411c-bb4d-3917e00faf60',
+            // hmacKey: '54b2ca8a-6752-469d-87dd-553bb450e9ad'
             // ---  cloud account keys ---
             host: 'cloud.myscript.com',
             applicationKey: '37596f3c-760b-4f58-92c8-c59826f4144b',
