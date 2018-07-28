@@ -8,6 +8,7 @@
       solo
       autofocus
       append-icon="functions"
+      v-model="editor_latex"
       @click:append="test('math pad')"
       clearable>
     </v-text-field>
@@ -16,23 +17,23 @@
 </div>
 
 <div style="position: relative; height: 100%">
+    <div style="position: absolute; left: 50%; top: 50%; z-index: 99;">
+    <div v-if="recognizing">
+      <v-progress-circular indeterminate color="green">
+      </v-progress-circular>
+    </div>
+    </div>
 
-  <v-container fluid fill-height>
+    <v-container fluid fill-height>
+      <v-layout justify-center align-start fill-height>
+        <div class="editor" ref="editor"
+         v-touch:tap="on_stroke"
+         v-touch:swipe="on_stroke">
+        </div>
+      </v-layout>
+    </v-container>
 
-
-      <v-container fill-height>
-        <v-layout align-center>
-          <v-flex text-xs-center>
-            <div class="editor" ref="editor"></div>
-            <!--
-            <v-progress-circular indeterminate color="green">
-            </v-progress-circular>
-            -->
-          </v-flex>
-        </v-layout>
-      </v-container>
-
-    <v-navigation-drawer v-model="menu" absolute>
+    <v-navigation-drawer v-model="menu" temporary absolute>
       <v-toolbar flat>
         <v-list><v-list-tile>
         <v-list-title class="title"> Settings </v-list-title>
@@ -85,12 +86,13 @@
     <v-navigation-drawer v-model="drawer" width="800"
      right stateless temporary absolute>
      <!-- tab BEGIN -->
-     <div class="tab" @click="drawer_set(!drawer)" style="left: -25px">
+     <div class="tab" v-bind:class="{'tab-out':!drawer, 'tab-in':drawer}"
+         @click="drawer_set(!drawer)">
        <v-icon v-if="!drawer">navigate_before</v-icon>
        <v-icon v-else>navigate_next</v-icon>
      </div>
      <!-- tab END -->
-    <div style="height: 100%; overflow: auto;">
+    <div style="height: 100%; overflow-y: auto;">
       <v-container>
       <ul>
         <li v-for="hit in hits">
@@ -105,7 +107,8 @@
       </v-container>
     </div>
     </v-navigation-drawer>
-  </v-container>
+
+  </div>
 </div>
 
 <v-footer>
@@ -129,23 +132,26 @@ export default {
       'page': 2,
       'drawer': false,
       'menu': false,
+      'editor_latex': '',
+      'recognizing': false,
       'hits': mockup_hits.hits
     }
   },
   created: function () {
     console.log('created!');
-    $(document).ready(function() {
-    });
   },
   mounted: function () {
     console.log("mounted!");
 
+    var vm = this;
     $(this.$refs['editor']).on("exported", function (evt) {
       console.log(evt.detail.exports)
+      vm.editor_latex = evt.detail.exports['application/x-latex'];
+      vm.recognizing = false;
     });
 
     $(window).resize(function () {
-      var editorEle = this.$refs['editor'];
+      var editorEle = vm.$refs['editor'];
       editorEle.editor.resize();
     });
 
@@ -172,10 +178,12 @@ export default {
           }
         }
     });
+
   },
   methods: {
     test: function (str) {
-      console.log('test' + str);
+      console.log('test');
+      console.log(str)
     },
     drawer_set(state) {
       this.drawer = state;
@@ -187,6 +195,10 @@ export default {
         })
       }, 500);
     },
+    on_stroke() {
+      console.log('on stroke');
+      this.recognizing = true;
+    }
   }
 }
 /*
@@ -226,15 +238,22 @@ div.tab {
   height: 50px;
   padding-top: 12px;
   background-color: white;
-  -webkit-box-shadow: -2px 0px 1px 2px rgba(0,0,0,0.2);  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
-  -moz-box-shadow:    -2px 0px 1px 2px rgba(0,0,0,0.2);  /* Firefox 3.5 - 3.6 */
-  box-shadow:         -2px 0px 1px 2px rgba(0,0,0,0.2);  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+  -webkit-box-shadow: 0px 2px 1px 2px rgba(0,0,0,0.2);  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow:    0px 2px 1px 2px rgba(0,0,0,0.2);  /* Firefox 3.5 - 3.6 */
+  box-shadow:         0px 2px 1px 2px rgba(0,0,0,0.2);  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+}
+div.tab-out {
+  left: -25px;
+}
+div.tab-in {
+  left: 0px;
 }
 
 div.editor {
-  min-height: 600px;
-  width: 90%;
-  margin: 5px 30px 5px 30px;
+  height: 100%;
+  width: 100%;
+  margin-left: 30px;
+  margin-right: 30px;
   background-color:rgba(255, 255, 255, 0.9);
   touch-action: none;
   border: 1px solid #D7DDE3;
@@ -242,4 +261,5 @@ div.editor {
 .ms-editor {
   z-index: 0 !important;
 }
+
 </style>
