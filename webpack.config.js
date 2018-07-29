@@ -1,8 +1,9 @@
 var webpack = require('webpack')
 var VueLoaderPlugin = require('vue-loader/lib/plugin')
+var HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   performance: { hints: false },
   entry: __dirname + '/main.js',
   output: {
@@ -24,11 +25,10 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"production"'
-      }
-    }),
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    new HtmlWebpackPlugin({
+      hash: true, /* hash busting */
+      template: 'index-template.html'
+    })
   ]
 }
