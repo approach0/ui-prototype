@@ -2,6 +2,8 @@ var webpack = require('webpack')
 var VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
+  mode: 'development',
+  performance: { hints: false },
   entry: __dirname + '/main.js',
   output: {
     filename: 'bundle.js'
@@ -10,11 +12,13 @@ module.exports = {
     rules: [
         { test: /\.vue$/, use: 'vue-loader' },
         { test: /\.css$/, use: ['style-loader', 'css-loader']},
-        { test: /\.json$/, loader: 'json-loader'},
         { test: /\.(eot|woff|woff2|svg|ttf)([\?]?.*)$/,
           use: [{
             loader: 'file-loader',
-            options: {outputPath: 'fonts/'}
+            options: {
+              outputPath: 'fonts/',
+              publicPath: 'dist/fonts/'
+            }
           }]
         }
     ]

@@ -27,9 +27,8 @@
     <v-container fluid fill-height>
       <v-layout justify-center align-start fill-height>
         <div class="editor" ref="editor"
-		 v-bind:style="{background: paper_color}"
-         v-touch:tap="on_stroke"
-         v-touch:swipe="on_stroke">
+		 touch-action="none"
+		 v-bind:style="{background: paper_color}">
         </div>
       </v-layout>
     </v-container>
@@ -93,7 +92,7 @@
        <v-icon v-else>navigate_next</v-icon>
      </div>
      <!-- tab END -->
-    <div style="height: 100%; overflow-y: auto;">
+    <div style="height: 100%; overflow-y: auto; word-break: break-all;">
       <v-container>
       <ul>
         <li v-for="hit in hits">
@@ -125,13 +124,14 @@
 <script>
 const mockup_hits = require("./mockup-hits.json")
 const colors = require('vuetify/es5/util/colors')
+
 var MyScript = require('myscript/dist/myscript.min.js')
 var $ = require('jquery')
 
 export default {
   data: function () {
     return {
-      'page': 2,
+      'page': 1,
       'drawer': false,
       'menu': false,
       'editor_latex': '',
@@ -140,13 +140,32 @@ export default {
       'hits': mockup_hits.hits
     }
   },
-  created: function () {
-    console.log('created!');
-  },
   mounted: function () {
+    var vm = this;
+    var editorEle = vm.$refs['editor'];
     console.log("mounted!");
 
-    var vm = this;
+	(function () {
+		var start_draw = false;
+		$(editorEle).on("pointerdown", function(event) {
+			start_draw = true;
+		});
+		$(editorEle).on("pointerout", function(event) {
+			if (start_draw) {
+				console.log('finish draw (pointer-out)');
+				start_draw = false;
+				vm.recognizing = true;
+			}
+		});
+		$(editorEle).on("pointerup", function(event) {
+			if (start_draw) {
+				console.log('finish draw (pointer-up)');
+				start_draw = false;
+				vm.recognizing = true;
+			}
+		});
+	})();
+
     $(this.$refs['editor']).on("exported", function (evt) {
       console.log(evt.detail.exports)
       vm.editor_latex = evt.detail.exports['application/x-latex'];
@@ -154,7 +173,6 @@ export default {
     });
 
     $(window).resize(function () {
-      var editorEle = vm.$refs['editor'];
       editorEle.editor.resize();
     });
 
@@ -164,7 +182,7 @@ export default {
       },
       recognitionParams: {
         type: 'MATH',
-        protocol: 'REST',
+        protocol: 'WEBSOCKET',
         apiVersion: 'V4',
           server: {
             scheme: 'https',
@@ -200,28 +218,9 @@ export default {
           vm.drawer = false;
         })
       }, 500);
-    },
-    on_stroke() {
-      console.log('on stroke');
-      this.recognizing = true;
     }
   }
 }
-/*
-  <v-jumbotron :gradient="'to top right, rgba(63,81,181, .7), rgba(25,32,72, .7)'" dark
-    src="./background.jpg" height="100%">
-    <v-container fill-height>
-      <v-layout align-center>
-        <v-flex text-xs-center>
-          <h3 class="display-3">Hello World!</h3>
-          <v-progress-circular indeterminate color="green">
-          </v-progress-circular>
-        </v-flex>
-      </v-layout>
-    </v-container>
-  </v-jumbotron>
-  border: 2px solid #333;
-*/
 </script>
 
 <style>
@@ -260,7 +259,6 @@ div.editor {
   width: 100%;
   margin-left: 30px;
   margin-right: 30px;
-  touch-action: none;
 }
 .ms-editor {
   z-index: 0 !important;

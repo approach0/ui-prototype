@@ -1,17 +1,18 @@
 {
   "dependencies": {
-    "css-loader": "^1.0.0",
-    "file-loader": "^1.1.11",
     "jquery": "^3.3.1",
-    "json-loader": "^0.5.7",
     "material-icons": "^0.2.3",
     "myscript": "^4.2.0",
-    "style-loader": "^0.21.0",
     "vue": "^2.5.16",
-    "vue-loader": "^15.2.6",
+    "vuetify": "^1.1.8"
+  },
+  "devDependencies": {
+    "file-loader": "^1.1.11",
     "vue-template-compiler": "^2.5.16",
-    "vue2-touch-events": "^1.0.0",
-    "vuetify": "^1.1.8",
-    "webpack": "3.9"
+    "vue-loader": "^15.2.6",
+    "css-loader": "^1.0.0",
+    "style-loader": "^0.21.0",
+    "webpack": "^4.16.3",
+    "webpack-cli": "^3.1.0"
   }
 }
