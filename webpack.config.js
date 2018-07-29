@@ -18,7 +18,7 @@ module.exports = {
             loader: 'file-loader',
             options: {
               outputPath: 'fonts/',
-              publicPath: 'dist/fonts/'
+              publicPath: 'fonts/'
             }
           }]
         }
