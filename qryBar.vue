@@ -102,7 +102,7 @@
         </li>
       </ul>
       <v-layout justify-center>
-        <v-pagination v-model="page" :length="20" :total-visible="7"></v-pagination>
+        <v-pagination v-model="page" :length="20"></v-pagination>
       </v-layout>
       </v-container>
     </div>
