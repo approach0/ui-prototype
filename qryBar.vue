@@ -17,104 +17,120 @@
 </div>
 
 <div style="position: relative; height: 100%">
-    <div style="position: absolute; left: 50%; top: 50%; z-index: 99;">
+
+  <div style="position: absolute; left: 50%; top: 50%; z-index: 1;">
     <div v-if="recognizing">
       <v-progress-circular indeterminate color="green">
       </v-progress-circular>
     </div>
-    </div>
-
-    <v-container fluid fill-height>
-      <v-layout justify-center align-start fill-height>
-        <div class="editor" ref="editor"
-		 touch-action="none"
-		 v-bind:style="{background: paper_color}">
-        </div>
-      </v-layout>
-    </v-container>
-
-    <v-navigation-drawer v-model="menu" temporary absolute>
-      <v-toolbar flat>
-        <v-list><v-list-tile>
-        <v-list-title class="title"> Settings </v-list-title>
-        </v-list-tile></v-list>
-      </v-toolbar>
-
-      <v-divider></v-divider>
-
-      <v-list dense class="pt-0">
-
-        <v-list-tile @click="">
-          <v-list-tile-action>
-            <v-icon> star </v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-title> Star deck </v-list-title>
-          </v-list-tile-content>
-        </v-list-tile>
-
-        <v-list-tile @click="">
-          <v-list-tile-action>
-            <v-icon> help </v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-title> Guide </v-list-title>
-          </v-list-tile-content>
-        </v-list-tile>
-
-        <v-list-tile @click="">
-          <v-list-tile-action>
-            <v-icon> gavel </v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-title> Raw query </v-list-title>
-          </v-list-tile-content>
-        </v-list-tile>
-
-        <v-list-tile @click="">
-          <v-list-tile-action>
-            <v-icon> apps </v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-title> Common LaTeX symbols </v-list-title>
-          </v-list-tile-content>
-        </v-list-tile>
-
-      </v-list>
-    </v-navigation-drawer>
-
-    <v-navigation-drawer v-model="drawer" width="800"
-     right stateless temporary absolute>
-     <!-- tab BEGIN -->
-     <div class="tab" v-bind:class="{'tab-out':!drawer, 'tab-in':drawer}"
-         @click="drawer_set(!drawer)">
-       <v-icon v-if="!drawer">navigate_before</v-icon>
-       <v-icon v-else>navigate_next</v-icon>
-     </div>
-     <!-- tab END -->
-    <div style="height: 100%; overflow-y: auto; word-break: break-all;">
-      <v-container>
-      <ul>
-        <li v-for="hit in hits">
-        <p class="sni-title"> {{hit.title}}</p>
-        <p class="sni-url">{{hit.url}}     </p>
-        <p class="snippet">{{hit.snippet}} </p>
-        </li>
-      </ul>
-      <v-layout justify-center>
-        <v-pagination v-model="page" :length="20"></v-pagination>
-      </v-layout>
-      </v-container>
-    </div>
-    </v-navigation-drawer>
-
   </div>
+
+  <v-container id="editor-control-layer" fluid fill-height>
+    <v-layout id="editor-control" justify-center align-end fill-height>
+      <v-btn fab small color="primary" @click.stop="edit_clear" :disabled="!canClear">
+        <v-icon dark>delete</v-icon>
+      </v-btn>
+      <v-btn fab small color="primary" @click.stop="edit_undo" :disabled="!canUndo">
+        <v-icon dark>undo</v-icon>
+      </v-btn>
+      <v-btn fab small color="primary" @click.stop="edit_redo" :disabled="!canRedo">
+        <v-icon dark>redo</v-icon>
+      </v-btn>
+      <v-btn fab small color="primary" @click.stop="edit_convert" :disabled="!canClear">
+        <v-icon dark>spellcheck</v-icon>
+      </v-btn>
+    </v-layout>
+  </v-container>
+
+  <v-container fluid fill-height>
+    <v-layout justify-center align-start fill-height>
+      <div class="editor" ref="editor" touch-action="none"
+       v-bind:style="{background: paper_color}">
+      </div>
+    </v-layout>
+  </v-container>
+
+  <v-navigation-drawer v-model="menu" temporary absolute>
+    <v-toolbar flat>
+      <v-list><v-list-tile>
+      <v-list-title class="title"> Settings </v-list-title>
+      </v-list-tile></v-list>
+    </v-toolbar>
+
+    <v-divider></v-divider>
+
+    <v-list dense class="pt-0">
+
+      <v-list-tile @click="">
+        <v-list-tile-action>
+          <v-icon> star </v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-title> Star deck </v-list-title>
+        </v-list-tile-content>
+      </v-list-tile>
+
+      <v-list-tile @click="">
+        <v-list-tile-action>
+          <v-icon> help </v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-title> Guide </v-list-title>
+        </v-list-tile-content>
+      </v-list-tile>
+
+      <v-list-tile @click="">
+        <v-list-tile-action>
+          <v-icon> gavel </v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-title> Raw query </v-list-title>
+        </v-list-tile-content>
+      </v-list-tile>
+
+      <v-list-tile @click="">
+        <v-list-tile-action>
+          <v-icon> apps </v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-title> Common LaTeX symbols </v-list-title>
+        </v-list-tile-content>
+      </v-list-tile>
+
+    </v-list>
+  </v-navigation-drawer>
+
+  <v-navigation-drawer v-model="drawer" width="800"
+   right stateless temporary absolute>
+   <!-- tab BEGIN -->
+   <div class="tab" v-bind:class="{'tab-out':!drawer, 'tab-in':drawer}"
+       @click="drawer_set(!drawer)">
+     <v-icon v-if="!drawer">navigate_before</v-icon>
+     <v-icon v-else>navigate_next</v-icon>
+   </div>
+   <!-- tab END -->
+  <div style="height: 100%; overflow-y: auto; word-break: break-all;">
+    <v-container>
+    <ul>
+      <li v-for="hit in hits">
+      <p class="sni-title"> {{hit.title}}</p>
+      <p class="sni-url">{{hit.url}}     </p>
+      <p class="snippet">{{hit.snippet}} </p>
+      </li>
+    </ul>
+    <v-layout justify-center>
+      <v-pagination v-model="page" :length="20"></v-pagination>
+    </v-layout>
+    </v-container>
+  </div>
+  </v-navigation-drawer>
+
 </div>
 
 <v-footer>
   <v-layout justify-center>
     <v-flex primary py-2 text-xs-center white--text xs12>
-      &copy; {{ new Date().getFullYear() }} — <strong>Approach0</strong>
+      &copy; {{ new Date().getFullYear() }} — <strong>MathSeer</strong> (prototype)
     </v-flex>
   </v-layout>
 </v-footer>
@@ -136,7 +152,10 @@ export default {
       'menu': false,
       'editor_latex': '',
       'recognizing': false,
-	  'paper_color': colors['default'].grey.lighten3,
+      'paper_color': colors['default'].grey.lighten3,
+      'canUndo': false,
+      'canRedo': false,
+      'canClear': false,
       'hits': mockup_hits.hits
     }
   },
@@ -145,31 +164,39 @@ export default {
     var editorEle = vm.$refs['editor'];
     console.log("mounted!");
 
-	(function () {
-		var start_draw = false;
-		$(editorEle).on("pointerdown", function(event) {
-			start_draw = true;
-		});
-		$(editorEle).on("pointerout", function(event) {
-			if (start_draw) {
-				console.log('finish draw (pointer-out)');
-				start_draw = false;
-				vm.recognizing = true;
-			}
-		});
-		$(editorEle).on("pointerup", function(event) {
-			if (start_draw) {
-				console.log('finish draw (pointer-up)');
-				start_draw = false;
-				vm.recognizing = true;
-			}
-		});
-	})();
+    (function () {
+      var start_draw = false;
+      $(editorEle).on("pointerdown", function(event) {
+        start_draw = true;
+      });
+      $(editorEle).on("pointerout", function(event) {
+        if (start_draw) {
+          console.log('finish draw (pointer-out)');
+          start_draw = false;
+          vm.recognizing = true;
+        }
+      });
+      $(editorEle).on("pointerup", function(event) {
+        if (start_draw) {
+          console.log('finish draw (pointer-up)');
+          start_draw = false;
+          vm.recognizing = true;
+        }
+      });
+    })();
+
+    $(this.$refs['editor']).on("changed", function (evt) {
+      vm.canUndo = evt.detail.canUndo;
+      vm.canRedo = evt.detail.canRedo;
+    });
 
     $(this.$refs['editor']).on("exported", function (evt) {
-      console.log(evt.detail.exports)
-      vm.editor_latex = evt.detail.exports['application/x-latex'];
-      vm.recognizing = false;
+      const exports = evt.detail.exports;
+      if (exports && exports['application/x-latex']) {
+        vm.editor_latex = exports['application/x-latex'];
+        vm.recognizing = false;
+        vm.canClear = true;
+      }
     });
 
     $(window).resize(function () {
@@ -205,10 +232,6 @@ export default {
 
   },
   methods: {
-    test: function (str) {
-      console.log('test');
-      console.log(str)
-    },
     drawer_set(state) {
       this.drawer = state;
       var vm = this;
@@ -218,6 +241,28 @@ export default {
           vm.drawer = false;
         })
       }, 500);
+    },
+    edit_clear: function () {
+      var editorEle = this.$refs['editor']
+      editorEle.editor.clear();
+      this.canClear = false;
+    },
+    edit_undo: function () {
+      var editorEle = this.$refs['editor']
+      editorEle.editor.undo();
+    },
+    edit_redo: function () {
+      var editorEle = this.$refs['editor']
+      editorEle.editor.redo();
+    },
+    edit_convert: function () {
+      var editorEle = this.$refs['editor']
+      editorEle.editor.convert();
+    },
+    test: function (str) {
+      console.log('test');
+      console.log(str)
+      console.log(this.canClear)
     }
   }
 }
@@ -263,5 +308,12 @@ div.editor {
 .ms-editor {
   z-index: 0 !important;
 }
-
+#editor-control-layer {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+}
+#editor-control * {
+  pointer-events: auto;
+}
 </style>
