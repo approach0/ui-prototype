@@ -7,7 +7,7 @@
     <v-text-field placeholder="Search"
       solo
       autofocus
-      append-icon="functions"
+      append-icon="photo_camera"
       v-model="editor_latex"
       @click:append="test('math pad')"
       clearable>
@@ -171,14 +171,14 @@ export default {
       });
       $(editorEle).on("pointerout", function(event) {
         if (start_draw) {
-          console.log('finish draw (pointer-out)');
+          // console.log('finish draw (pointer-out)');
           start_draw = false;
           vm.recognizing = true;
         }
       });
       $(editorEle).on("pointerup", function(event) {
         if (start_draw) {
-          console.log('finish draw (pointer-up)');
+          // console.log('finish draw (pointer-up)');
           start_draw = false;
           vm.recognizing = true;
         }
@@ -186,8 +186,10 @@ export default {
     })();
 
     $(this.$refs['editor']).on("changed", function (evt) {
+      // console.log(evt.detail);
       vm.canUndo = evt.detail.canUndo;
       vm.canRedo = evt.detail.canRedo;
+      vm.recognizing = false;
     });
 
     $(this.$refs['editor']).on("exported", function (evt) {
@@ -262,7 +264,6 @@ export default {
     test: function (str) {
       console.log('test');
       console.log(str)
-      console.log(this.canClear)
     }
   }
 }
