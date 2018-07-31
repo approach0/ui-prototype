@@ -1,0 +1,36 @@
+{
+  "deck": [
+    {
+    "tex": "v = a \\times b",
+    "type": "star"
+    },
+    {
+    "tex": "f(x) = ax",
+    "type": "history"
+    },
+    {
+    "tex": "1+2",
+    "type": "history"
+    },
+    {
+    "tex": "x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}",
+    "type": "star"
+    },
+    {
+    "tex": "ax^2 + bx + c = 0",
+    "type": "star"
+    },
+    {
+    "tex": "\\int f(x) dx",
+    "type": "history"
+    },
+    {
+    "tex": "\\vec{\\nabla} \\times \\vec{F} = \\left( \\frac{\\partial F_z}{\\partial y} - \\frac{\\partial F_y}{\\partial z} \\right) \\mathbf{i}\r\n        + \\left( \\frac{\\partial F_x}{\\partial z} - \\frac{\\partial F_z}{\\partial x} \\right) \\mathbf{j} + \\left( \\frac{\\partial\r\n        F_y}{\\partial x} - \\frac{\\partial F_x}{\\partial y} \\right) \\mathbf{k}",
+    "type": "star"
+    },
+    {
+    "tex": "v = a \\times b",
+    "type": "history"
+    }
+  ]
+}
