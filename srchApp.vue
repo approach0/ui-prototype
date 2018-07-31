@@ -2,10 +2,18 @@
 <v-app light>
 
 <div style="padding: 1em 1em 0em 1em;">
-  <v-layout>
+  <v-layout row>
     <v-toolbar-side-icon @click="menu = !menu; drawer_set(false)"></v-toolbar-side-icon>
-    <div id="qry_bar"></div>
-    <v-btn color="info" @click.stop="drawer_set(true)"><v-icon>search</v-icon></v-btn>
+    <v-layout wrap>
+      <v-flex>
+        <div id="qry_bar"></div>
+      </v-flex>
+      <v-flex xs3>
+        <v-btn block color="info" @click.stop="drawer_set(true)">
+          <v-icon>search</v-icon>
+        </v-btn>
+      </v-flex>
+    </v-layout>
   </v-layout>
 </div>
 
@@ -122,8 +130,9 @@
   </div>
   </v-navigation-drawer>
   
-  <div style="position: absolute; width: 100%; z-index: 1; right: 40px;">
-    <v-speed-dial right bottom v-model="dialer" direction="top" open-on-hover>
+  <div id="speed-dial">
+    <v-speed-dial right bottom
+     v-model="dialer" direction="top" open-on-hover>
       <v-btn fab slot="activator" v-model="dialer">
         <v-icon color="primary">input</v-icon>
         <v-icon color="primary">close</v-icon>
@@ -340,5 +349,19 @@ div.editor {
 
 .v-speed-dial {
   position: absolute !important;
+}
+
+@media only screen and (min-width: 768px) {
+  #speed-dial {
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+    right: 40px;
+  }
+}
+@media only screen and (max-width: 768px) {
+  #speed-dial {
+    display: none;
+  }
 }
 </style>

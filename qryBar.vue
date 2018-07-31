@@ -11,12 +11,14 @@
     <div class="v-input__append-inner">
       <v-icon>close</v-icon>
     </div>
+<!--
     <div class="v-input__append-inner">
       <v-icon>star_border</v-icon>
     </div>
     <div class="v-input__append-inner">
       <v-icon>photo_camera</v-icon>
     </div>
+-->
   </div>
 </div>
 </template>
@@ -28,10 +30,9 @@ export default {
     return {
       'chips': [
         '$f(x) = ax+b$',
-       /* '$f(x) = ax+b$',
+        'x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}',
+        'ax^2 + bx + c = 0',
         '$f(x) = ax+b$',
-        '$f(x) = ax+b$',
-        '$f(x) = ax+b$',*/
         '$\\frac a b$'
       ]
     }
