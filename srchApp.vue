@@ -1,5 +1,6 @@
 <template>
 <v-app light>
+<div style="height: 100%; width: 100%;">
 
 <div style="padding: 1em 1em 0em 1em;">
   <v-layout row align-center>
@@ -159,8 +160,10 @@
   </v-layout>
 </v-footer>
 
+</div>
 </v-app>
 </template>
+
 <script>
 const mockup_hits = require("./mockup-hits.json")
 const mockup_deck = require("./mockup-deck.json")
