@@ -93,7 +93,7 @@
     </v-toolbar>
     <v-divider></v-divider>
 
-    <v-list dense class="pt-0">
+    <v-list id="math_deck" dense class="pt-0">
       <v-list-tile v-for="d in deck" @click="">
         <v-list-tile-action>
           <v-icon> {{d.type}} </v-icon>
@@ -370,6 +370,13 @@ div.editor {
 
 @media only screen and (max-width: 768px) {
   #menu {
+    display: none;
+  }
+}
+
+/* very hacky to make sure math deck won't break layout height */
+@media only screen and (max-height: 700px) {
+  #math_deck {
     display: none;
   }
 }
