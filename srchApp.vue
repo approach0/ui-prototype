@@ -1,7 +1,5 @@
 <template>
 <v-app light>
-<div style="height: 100%; width: 100%;">
-
 <div style="padding: 1em 1em 0em 1em;">
   <v-layout row align-center>
 	<div id="menu">
@@ -55,19 +53,16 @@
   </v-container>
 
   <v-navigation-drawer v-model="menu" temporary absolute>
-    <v-toolbar flat>
-      <v-list>
-        <v-list-tile>
-        <v-list-tile-title class="title"> Menu </v-list-tile-title>
-        </v-list-tile>
-      </v-list>
-    </v-toolbar>
+    <div style="height: 100%; overflow: auto;">
     <v-divider></v-divider>
-
     <v-list>
+      <v-list-tile>
+      <v-list-tile-title class="title">Menu </v-list-tile-title>
+      </v-list-tile>
+
       <v-list-tile @click="">
         <v-list-tile-action>
-          <v-icon> help </v-icon>
+          <v-icon>  </v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
           <v-list-tile-title>User Guide</v-list-tile-title>
@@ -84,16 +79,14 @@
       </v-list-tile>
     </v-list>
 
-    <v-toolbar flat>
-      <v-list>
-        <v-list-tile>
-        <v-list-tile-title class="title">Math Deck </v-list-tile-title>
-        </v-list-tile>
-      </v-list>
-    </v-toolbar>
     <v-divider></v-divider>
+    <v-list>
+      <v-list-tile>
+      <v-list-tile-title class="title">Math Deck </v-list-tile-title>
+      </v-list-tile>
+    </v-list>
 
-    <v-list id="math_deck" dense class="pt-0">
+    <v-list dense class="pt-0">
       <v-list-tile v-for="d in deck" @click="">
         <v-list-tile-action>
           <v-icon> {{d.type}} </v-icon>
@@ -103,7 +96,7 @@
         </v-list-tile-content>
       </v-list-tile>
     </v-list>
-
+    </div>
   </v-navigation-drawer>
 
   <v-navigation-drawer v-model="drawer" width="800"
@@ -160,7 +153,6 @@
   </v-layout>
 </v-footer>
 
-</div>
 </v-app>
 </template>
 
@@ -374,14 +366,7 @@ div.editor {
   }
 }
 
-/* very hacky to make sure math deck won't break layout height */
-@media only screen and (max-height: 700px) {
-  #math_deck {
-    display: none;
-  }
-}
-
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 1300px) {
   #srch_btn_flex {
     max-width: 150px;
   }
