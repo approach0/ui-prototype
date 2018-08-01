@@ -2,13 +2,13 @@
 <v-app light>
 
 <div style="padding: 1em 1em 0em 1em;">
-  <v-layout row>
-    <v-toolbar-side-icon @click="menu = !menu; drawer_set(false)"></v-toolbar-side-icon>
+  <v-layout row align-center>
+      <v-toolbar-side-icon @click="menu = !menu; drawer_set(false)"></v-toolbar-side-icon>
     <v-layout wrap>
-      <v-flex>
+      <v-flex style="padding-left: 12px;">
         <div id="qry_bar"></div>
       </v-flex>
-      <v-flex xs3>
+      <v-flex style="padding-left: 12px;">
         <v-btn block color="info" @click.stop="drawer_set(true)">
           <v-icon>search</v-icon>
         </v-btn>
