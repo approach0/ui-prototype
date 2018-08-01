@@ -3,7 +3,8 @@
 <div style="padding: 1em 1em 0em 1em;">
   <v-layout row align-center>
 	<div id="menu">
-      <v-toolbar-side-icon @click="menu = !menu; drawer_set(false)"></v-toolbar-side-icon>
+      <v-toolbar-side-icon @click="menu = !menu; drawer_set(false)">
+	  </v-toolbar-side-icon>
 	</div>
     <v-layout wrap>
       <v-flex style="padding-left: 12px; flex: 10;">
@@ -62,7 +63,7 @@
 
       <v-list-tile @click="">
         <v-list-tile-action>
-          <v-icon>  </v-icon>
+          <v-icon> help </v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
           <v-list-tile-title>User Guide</v-list-tile-title>
@@ -118,7 +119,8 @@
       </li>
     </ul>
     <v-layout justify-center>
-      <v-pagination v-model="page" :length="20"></v-pagination>
+      <v-pagination v-model="page" :length="23" :total-visible="9">
+	  </v-pagination>
     </v-layout>
     </v-container>
   </div>
