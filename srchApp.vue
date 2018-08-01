@@ -3,12 +3,14 @@
 
 <div style="padding: 1em 1em 0em 1em;">
   <v-layout row align-center>
+	<div id="menu">
       <v-toolbar-side-icon @click="menu = !menu; drawer_set(false)"></v-toolbar-side-icon>
+	</div>
     <v-layout wrap>
       <v-flex style="padding-left: 12px;">
         <div id="qry_bar"></div>
       </v-flex>
-      <v-flex style="padding-left: 12px;">
+      <v-flex style="padding-left: 12px;" id="srch_btn_flex">
         <v-btn block color="info" @click.stop="drawer_set(true)">
           <v-icon>search</v-icon>
         </v-btn>
@@ -55,7 +57,7 @@
     <v-toolbar flat>
       <v-list>
         <v-list-tile>
-        <v-list-title class="title"> Menu </v-list-title>
+        <v-list-tile-title class="title"> Menu </v-list-tile-title>
         </v-list-tile>
       </v-list>
     </v-toolbar>
@@ -67,7 +69,7 @@
           <v-icon> help </v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-title>User Guide</v-list-title>
+          <v-list-tile-title>User Guide</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
 
@@ -76,7 +78,7 @@
           <v-icon> functions </v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-title> LaTeX symbols </v-list-title>
+          <v-list-tile-title> LaTeX symbols </v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
     </v-list>
@@ -84,7 +86,7 @@
     <v-toolbar flat>
       <v-list>
         <v-list-tile>
-        <v-list-title class="title">Math Deck </v-list-title>
+        <v-list-tile-title class="title">Math Deck </v-list-tile-title>
         </v-list-tile>
       </v-list>
     </v-toolbar>
@@ -96,9 +98,7 @@
           <v-icon> {{d.type}} </v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-title>
-            <v-chip close> {{d.tex}} </v-chip>
-          </v-list-title>
+          <v-chip close> {{d.tex}} </v-chip>
         </v-list-tile-content>
       </v-list-tile>
     </v-list>
@@ -362,6 +362,18 @@ div.editor {
 @media only screen and (max-width: 768px) {
   #speed-dial {
     display: none;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  #menu {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  #srch_btn_flex {
+    max-width: 150px;
   }
 }
 </style>
