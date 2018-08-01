@@ -2,8 +2,9 @@
 <v-app light>
 
 <div style="padding: 1em 1em 0em 1em;">
-  <v-layout wrap>
+  <v-layout row align-center>
       <v-toolbar-side-icon @click="menu = !menu; drawer_set(false)"></v-toolbar-side-icon>
+    <v-layout wrap>
       <v-flex style="padding-left: 12px;">
         <div id="qry_bar"></div>
       </v-flex>
@@ -12,6 +13,7 @@
           <v-icon>search</v-icon>
         </v-btn>
       </v-flex>
+    </v-layout>
   </v-layout>
 </div>
 
