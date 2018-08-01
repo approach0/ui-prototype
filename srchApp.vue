@@ -2,10 +2,10 @@
 <v-app light>
 <div style="padding: 1em 1em 0em 1em;">
   <v-layout row align-center>
-	<div id="menu">
-      <v-toolbar-side-icon @click="menu = !menu; drawer_set(false)">
-	  </v-toolbar-side-icon>
-	</div>
+  <div id="menu">
+    <v-toolbar-side-icon @click="menu = !menu; drawer_set(false)">
+    </v-toolbar-side-icon>
+  </div>
     <v-layout wrap>
       <v-flex style="padding-left: 12px; flex: 10;">
         <div id="qry_bar"></div>
@@ -119,13 +119,13 @@
       </li>
     </ul>
     <v-layout justify-center>
-      <v-pagination v-model="page" :length="23" :total-visible="9">
-	  </v-pagination>
+      <v-pagination v-model="page" :length="23" :total-visible="7">
+      </v-pagination>
     </v-layout>
     </v-container>
   </div>
   </v-navigation-drawer>
-  
+
   <div id="speed-dial">
     <v-speed-dial right bottom
      v-model="dialer" direction="top" open-on-hover>
@@ -162,6 +162,7 @@
 const mockup_hits = require("./mockup-hits.json")
 const mockup_deck = require("./mockup-deck.json")
 const colors = require('vuetify/es5/util/colors')
+import eventBus from './event-bus';
 
 var MyScript = require('myscript/dist/myscript.min.js')
 var $ = require('jquery')
@@ -183,10 +184,14 @@ export default {
       'hits': mockup_hits.hits
     }
   },
+  watch: {
+    'editor_latex': function (val) {
+      eventBus.$emit('update_edit_latex', val);
+    }
+  },
   mounted: function () {
     var vm = this;
     var editorEle = vm.$refs['editor'];
-    console.log("mounted!");
 
     (function () {
       var start_draw = false;
@@ -209,8 +214,12 @@ export default {
       });
     })();
 
+    eventBus.$on('update_canvas_pos', () => {
+      console.log('resize canvas...');
+      editorEle.editor.resize();
+    });
+
     $(this.$refs['editor']).on("changed", function (evt) {
-      // console.log(evt.detail);
       vm.canUndo = evt.detail.canUndo;
       vm.canRedo = evt.detail.canRedo;
       vm.recognizing = false;
@@ -288,8 +297,6 @@ export default {
     test: function (str) {
       console.log('test');
       console.log(str)
-      var editorEle = this.$refs['editor']
-      console.log(editorEle.editor);
     }
   }
 }
