@@ -6,10 +6,10 @@
       <v-toolbar-side-icon @click="menu = !menu; drawer_set(false)"></v-toolbar-side-icon>
 	</div>
     <v-layout wrap>
-      <v-flex style="padding-left: 12px;">
+      <v-flex style="padding-left: 12px; flex: 10;">
         <div id="qry_bar"></div>
       </v-flex>
-      <v-flex style="padding-left: 12px;" id="srch_btn_flex">
+      <v-flex style="padding-left: 12px; flex: 1;">
         <v-btn block color="info" @click.stop="drawer_set(true)">
           <v-icon>search</v-icon>
         </v-btn>
@@ -363,12 +363,6 @@ div.editor {
 @media only screen and (max-width: 768px) {
   #menu {
     display: none;
-  }
-}
-
-@media only screen and (min-width: 1300px) {
-  #srch_btn_flex {
-    max-width: 150px;
   }
 }
 </style>
