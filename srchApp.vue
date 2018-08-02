@@ -6,9 +6,11 @@
     <v-toolbar-side-icon @click="menu = !menu; drawer_set(false)">
     </v-toolbar-side-icon>
   </div>
-    <v-layout wrap>
+    <v-layout wrap align-center>
       <v-flex style="padding-left: 12px; flex: 10;">
-        <div id="qry_bar"></div>
+        <div style="padding-top: 6px;">
+          <div id="qry_bar"></div>
+        </div>
       </v-flex>
       <v-flex style="padding-left: 12px; flex: 1;">
         <v-btn block color="info" @click.stop="drawer_set(true)">
