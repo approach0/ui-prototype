@@ -5,6 +5,7 @@
     <div class="v-select__selections">
       <v-chip v-for="(chip, idx) in chips"
        v-bind:selected = "chips[idx].sel"
+       :class="{'v-chip--selected': cur_chip == idx}"
        @click="sel_chip(idx)" @input="del_chip(idx)" close>
       {{chip.str}}
       </v-chip>
@@ -88,4 +89,9 @@ export default {
 </script>
 
 <style>
+.v-chip--selected:after {
+  background-color: white !important;
+  opacity: 1 !important;
+  border: 1px solid white;
+}
 </style>
