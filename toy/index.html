@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="./myscript.min.css"/>
+<style>
+#editor {
+  background: grey;
+  width: 500px;
+  height: 500px;
+}
+</style>
+<script type="module">
+import MyScript from './myscript.esm.js';
+
+var editorElement = document.getElementById('editor');
+
+MyScript.register(editorElement, {
+  recognitionParams: {
+    type: 'MATH',
+    protocol: 'WEBSOCKET',
+    apiVersion: 'V4',
+      server: {
+        scheme: 'https',
+        host: 'webdemoapi.myscript.com',
+        applicationKey: '515131ab-35fa-411c-bb4d-3917e00faf60',
+        hmacKey: '54b2ca8a-6752-469d-87dd-553bb450e9ad'
+      },
+      v4: {
+        math: {
+          mimeTypes: ['application/x-latex']
+        }
+      }
+    }
+});
+
+/*
+ * ES6 module creates a scope to avoid collision,
+ * we need to define it explicitly on window.
+ */
+window.convert = function () {
+  editorElement.editor.convert();
+};
+
+window.clear = function () {
+  editorElement.editor.clear();
+};
+
+window.e = editorElement.editor;
+// e.export_(['application/x-latex']);
+
+editorElement.addEventListener("exported", function (evt) {
+  const exports = evt.detail.exports;
+  if (exports && exports['application/x-latex']) {
+    const tex = exports['application/x-latex'];
+    console.log('recognition: ' + tex);
+  }
+});
+
+function filterStrokes(strokes) {
+  const allowKeys = ['pointerId', 'pointerType', 'p', 't', 'y', 'x'];
+  var filtered = [];
+  strokes.forEach(function (stroke) {
+    const tmp = allowKeys.reduce((obj, key) => {
+      obj[key]=stroke[key];
+      return obj;
+    }, {});
+    filtered.push(tmp);
+  });
+  return filtered;
+}
+
+window.import_ = function () {
+  const exampleEle = document.getElementById('example');
+  const rawStrokes = JSON.parse(exampleEle.value);
+  editorElement.editor.pointerEvents({
+    "events": filterStrokes(rawStrokes)
+  });
+
+  editorElement.editor.model.rawStrokes = rawStrokes;
+};
+
+window.export_ = function () {
+  const exampleEle = document.getElementById('example');
+  const strokes = editorElement.editor.model.rawStrokes;
+  exampleEle.value = JSON.stringify(strokes, null, 2);
+};
+
+window.reconnect = function () {
+  var e = editorElement.editor;
+  var c = e.recognizerContext;
+  c.reconnect(c, e.model, function (model, err, res, callbk) {
+    console.log(err);
+    console.log(res);
+  });
+}
+</script>
+</head>
+<body>
+<script>
+</script>
+<button onclick="window.clear()">clear</button>
+<button onclick="window.convert()">convert</button>
+<button onclick="window.import_()">import</button>
+<button onclick="window.export_()">export</button>
+<button onclick="window.reconnect()">reconnect</button>
+<div id="editor"></div>
+
+<h3>Stroke data</h3>
+<textarea id="example" style="width: 500px; height: 500px;">
+[
+  {
+    "type": "stroke",
+    "x": [ 212, 209, 205, 202, 199, 192, 189, 189, 189, 190, 194, 198, 202, 206, 210, 212, 215, 216 ],
+    "y": [ 181, 181, 181, 181, 181, 183, 187, 190, 193, 196, 196, 195, 191, 188, 187, 184, 197, 203 ],
+    "t": [ 1533319747972, 1533319748057, 1533319748084, 1533319748138, 1533319748154, 1533319748184, 1533319748218, 1533319748234, 1533319748251, 1533319748314, 1533319748369, 1533319748434, 1533319748451, 1533319748468, 1533319748485, 1533319748538, 1533319748717, 1533319748734 ],
+    "p": [
+      0.5, 0.8267949192431123, 0.7145158745241171, 0.6761535882018319, 0.6761535882018319, 0.7891492414771674, 0.7436746598382117, 0.6761535882018319, 0.6761535882018319, 0.6831899108492184, 0.7145158745241171, 0.7185264889882718, 0.7592733046045574, 0.7436746598382117, 0.7185264889882718, 0.7007103955941203, 0.6347375729133047, 0.7681880209236327 ],
+    "l": [ 0, 3, 7, 10, 13, 20.280109889280517, 25.280109889280517, 28.280109889280517, 31.280109889280517, 34.442387549448895, 38.442387549448895, 42.56549317506656, 48.22234742455894, 53.22234742455894, 57.3454530501766, 60.95100432564059, 74.29266838976693, 80.37543092006516
+    ],
+    "width": 1.8897637795275593,
+    "pointerType": "mouse",
+    "pointerId": 1,
+    "color": "#000000",
+    "-myscript-pen-width": 1,
+    "-myscript-pen-fill-style": "none",
+    "-myscript-pen-fill-color": "#FFFFFF00",
+    "id": "pendingStroke-0"
+  }
+]
+</textarea>
+<p>
+version: MyScript v4.2.0 <br/>
+ref: https://developer.myscript.com/docs/interactive-ink/1.2/web/web-components/math-element/editing
+</p>
+</body>
+</html>
