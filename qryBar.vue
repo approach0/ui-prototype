@@ -69,7 +69,7 @@ export default {
         vm.cur_chip = this.chips.length - 1;
     });
 
-    eventBus.$on('do_search', () => {
+    eventBus.$on('split_chip', () => {
       this.split_chip(true);
       this.unsel_chip();
     });
@@ -97,6 +97,7 @@ export default {
       }
     },
     on_enter: function () {
+      eventBus.$emit('split_chip');
       eventBus.$emit('do_search');
     },
     clear_chips: function (idx) {

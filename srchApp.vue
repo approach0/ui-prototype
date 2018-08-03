@@ -3,7 +3,7 @@
 <div style="padding: 1em 1em 0em 1em;">
   <v-layout row align-center>
   <div id="menu">
-    <v-toolbar-side-icon @click="menu = !menu; drawer_set(false)">
+    <v-toolbar-side-icon @click="menu = !menu; set_drawer(false)">
     </v-toolbar-side-icon>
   </div>
     <v-layout wrap align-center>
@@ -106,7 +106,7 @@
    right stateless temporary absolute>
    <!-- tab BEGIN -->
    <div class="tab" v-bind:class="{'tab-out':!drawer, 'tab-in':drawer}"
-       @click="drawer_set(!drawer)">
+       @click="set_drawer(!drawer)">
      <v-icon v-if="!drawer">navigate_before</v-icon>
      <v-icon v-else>navigate_next</v-icon>
    </div>
@@ -222,7 +222,7 @@ export default {
     });
 
     eventBus.$on('do_search', () => {
-      vm.drawer_set(true);
+      vm.search();
     });
 
     $(this.$refs['editor']).on("changed", function (evt) {
@@ -274,10 +274,10 @@ export default {
   },
   methods: {
     search: function () {
-      this.drawer = true;
-      eventBus.$emit('do_search');
+      this.set_drawer(true);
+      eventBus.$emit('split_chip');
     },
-    drawer_set: function (state) {
+    set_drawer: function (state) {
       this.drawer = state;
       var vm = this;
       setTimeout(function () {
