@@ -13,7 +13,7 @@
         </div>
       </v-flex>
       <v-flex style="padding-left: 12px; flex: 1;">
-        <v-btn block color="info" @click.stop="drawer_set(true)">
+        <v-btn block color="info" @click.stop="search()">
           <v-icon>search</v-icon>
         </v-btn>
       </v-flex>
@@ -202,14 +202,14 @@ export default {
       });
       $(editorEle).on("pointerout", function(event) {
         if (start_draw) {
-          // console.log('finish draw (pointer-out)');
+          // console.log('finish_draw (pointer-out)');
           start_draw = false;
           vm.recognizing = true;
         }
       });
       $(editorEle).on("pointerup", function(event) {
         if (start_draw) {
-          // console.log('finish draw (pointer-up)');
+          // console.log('finish_draw (pointer-up)');
           start_draw = false;
           vm.recognizing = true;
         }
@@ -219,6 +219,10 @@ export default {
     eventBus.$on('update_canvas_pos', () => {
       console.log('resize canvas...');
       editorEle.editor.resize();
+    });
+
+    eventBus.$on('do_search', () => {
+      vm.drawer_set(true);
     });
 
     $(this.$refs['editor']).on("changed", function (evt) {
@@ -269,7 +273,11 @@ export default {
 
   },
   methods: {
-    drawer_set(state) {
+    search: function () {
+      this.drawer = true;
+      eventBus.$emit('do_search');
+    },
+    drawer_set: function (state) {
       this.drawer = state;
       var vm = this;
       setTimeout(function () {
