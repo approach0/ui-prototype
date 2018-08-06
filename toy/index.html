@@ -45,6 +45,10 @@ window.clear = function () {
   editorElement.editor.clear();
 };
 
+window.resize = function () {
+  editorElement.editor.resize();
+};
+
 window.e = editorElement.editor;
 // e.export_(['application/x-latex']);
 
@@ -76,6 +80,7 @@ window.import_ = function () {
     "events": filterStrokes(rawStrokes)
   });
 
+  window.clear();
   editorElement.editor.model.rawStrokes = rawStrokes;
 };
 
@@ -103,6 +108,7 @@ window.reconnect = function () {
 <button onclick="window.import_()">import</button>
 <button onclick="window.export_()">export</button>
 <button onclick="window.reconnect()">reconnect</button>
+<button onclick="window.resize()">resize</button>
 <div id="editor"></div>
 
 <h3>Stroke data</h3>
