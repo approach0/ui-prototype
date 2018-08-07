@@ -9,9 +9,9 @@
       {{chip.str}}
       </v-chip>
       <input id="draft_chip" v-model="draft_chip" type="text" role="combobox"
-       @click="sel_chip(-1)" @keyup.delete="on_del" @keyup.enter="on_enter" />
+       @click="unsel_chip()" @keyup.delete="on_del" @keyup.enter="on_enter" />
     </div>
-    <div class="v-input__append-inner" @click="clear_chips()">
+    <div class="v-input__append-inner" @click="clear_chips">
       <v-icon>close</v-icon>
     </div>
 <!--
@@ -33,12 +33,12 @@ export default {
   data: function () {
     return {
       'chips': [
-        /*{'sel': false, 'str': 'prove'},
-        {'sel': false, 'str': '$f(x) = ax+b$'},
-        {'sel': false, 'str': '$x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}$'},
-        {'sel': false, 'str': 'ax^2 + bx + c = 0'},
-        {'sel': false, 'str': '$f(x) = ax+b$'},
-        {'sel': false, 'str': '$\\frac a b$'}*/
+        /* {'str': 'prove'},
+        {'str': '$f(x) = ax+b$'},
+        {'str': '$x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}$'},
+        {'str': 'ax^2 + bx + c = 0'},
+        {'str': '$f(x) = ax+b$'},
+        {'str': '$\\frac a b$'} */
       ],
       'cursor_pos': 0,
       'cur_chip': -1,
@@ -60,18 +60,12 @@ export default {
   },
   mounted: function () {
     var vm = this;
-    eventBus.$on('update_edit_latex', tex => {
-      vm.write_chip(vm.cur_chip, '$' + tex + '$');
-
-      /* If the written chip is new, update cur_chip pointer.
-       * Otherwise, every stroke creates a new chip. */
-      if (vm.cur_chip == -1)
-        vm.cur_chip = this.chips.length - 1;
+    eventBus.$on('handwrite_tex', (tex, strokes) => {
+      vm.write_chip('$' + tex + '$', strokes);
     });
 
     eventBus.$on('split_chip', () => {
       this.split_chip(true);
-      this.unsel_chip();
     });
 
     $("#draft_chip").bind("keydown click focus", function() {
@@ -97,44 +91,59 @@ export default {
       }
     },
     on_enter: function () {
+      this.unsel_chip();
       eventBus.$emit('split_chip');
       eventBus.$emit('do_search');
     },
     clear_chips: function (idx) {
       this.chips = [];
-      this.cur_chip = -1;
+      this.unsel_chip();
       eventBus.$emit('update_canvas_pos');
     },
     del_chip: function (idx) {
       this.unsel_chip();
-      this.cur_chip = -1;
       this.chips.splice(idx, 1);
       eventBus.$emit('update_canvas_pos');
     },
     sel_chip: function (idx) {
-      this.unsel_chip();
-      this.cur_chip = idx;
-      if (idx > 0)
-        this.$set(this.chips[this.cur_chip], 'sel', true);
+      if (idx >= 0) {
+        this.cur_chip = idx;
+        const chip = this.chips[this.cur_chip];
+        const strokes = chip['strokes'] || [];
+        eventBus.$emit('update_canvas_strokes', strokes);
+      }
     },
     unsel_chip: function () {
-      this.chips = this.chips.map(x => {x.sel = false; return x});
+      this.cur_chip = -1;
+      eventBus.$emit('update_canvas_strokes', []);
     },
-    write_chip: function (idx, val) {
-      if (idx < 0) {
-        this.chips.push({'sel': false, 'str': ''});
-        idx = this.chips.length - 1;
+    write_chip: function (val, strokes) {
+      if (this.cur_chip < 0) {
+        /* allocate */
+        this.chips.push({'str': val, 'strokes': strokes});
+        this.sel_chip(this.chips.length - 1);
+      } else {
+        const idx = this.cur_chip;
+        this.$set(this.chips[idx], 'str', val);
+        this.$set(this.chips[idx], 'strokes', strokes);
       }
-
-      this.$set(this.chips[idx], 'str', val);
       eventBus.$emit('update_canvas_pos');
     },
     add_chip: function (s) {
-      this.cur_chip = -1;
-      this.write_chip(-1, s);
+      this.unsel_chip();
+      this.write_chip(s);
     },
     test: function (str) {
-      console.log(str)
+      //console.log(str)
+      this.chips.forEach((chip, chip_idx) => {
+        console.log(`chip[${chip_idx}] = ${chip.str}`);
+        if (chip.strokes === undefined)
+          return;
+        chip.strokes.forEach((s, s_idx) => {
+          console.log(`stroke[${s_idx}].x[0] = ${s.x[0]}`)
+        });
+      });
+      console.log('----')
     }
   }
 }

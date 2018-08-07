@@ -141,7 +141,7 @@
       <v-btn fab small>
         <v-icon color="grey">edit</v-icon>
       </v-btn>
-      <v-btn fab small>
+      <v-btn fab small @click="test">
         <v-icon color="red">add_a_photo</v-icon>
       </v-btn>
     </v-speed-dial>
@@ -169,6 +169,19 @@ import eventBus from './event-bus';
 var MyScript = require('myscript/dist/myscript.min.js')
 var $ = require('jquery')
 
+function filterStrokes(strokes) {
+  const allowKeys = ['pointerId', 'pointerType', 'p', 't', 'y', 'x'];
+  var filtered = [];
+  strokes.forEach(function (stroke) {
+    const tmp = allowKeys.reduce((obj, key) => {
+      obj[key]=stroke[key];
+      return obj;
+    }, {});
+    filtered.push(tmp);
+  });
+  return filtered;
+}
+
 export default {
   data: function () {
     return {
@@ -187,8 +200,9 @@ export default {
     }
   },
   watch: {
-    'editor_latex': function (val) {
-      eventBus.$emit('update_edit_latex', val);
+    'editor_latex': function (tex) {
+      const strokes = this.edit_get_strokes();
+      eventBus.$emit('handwrite_tex', tex, strokes);
     }
   },
   mounted: function () {
@@ -217,8 +231,37 @@ export default {
     })();
 
     eventBus.$on('update_canvas_pos', () => {
-      console.log('resize canvas...');
+      // console.log('resize canvas...');
       editorEle.editor.resize();
+    });
+
+    eventBus.$on('update_canvas_strokes', (strokes) => {
+      // console.log('update strokes...');
+
+      vm.edit_clear();
+
+      /*
+       * Since we currently do not save undo/redo state
+       * across different chips, just prohibit undo/redo
+       * everytime a new chip is selected.
+       */
+      vm.canUndo = false;
+      vm.canRedo = false;
+
+      /*
+       * Also needs to set rawStrokes otherwise it can be
+       * empty when canvas is set by editor.pointerEvents(),
+       * in that case, the next handwrite_tex event will pass
+       * empty strokes to qryBar component.
+       */
+      editorEle.editor.model.rawStrokes = strokes;
+
+      /* set empty strokes leads to weird behaviour */
+      if (strokes.length) {
+        editorEle.editor.pointerEvents({
+          "events": filterStrokes(strokes)
+        });
+      }
     });
 
     eventBus.$on('do_search', () => {
@@ -226,7 +269,7 @@ export default {
     });
 
     $(this.$refs['editor']).on("changed", function (evt) {
-      vm.canUndo = evt.detail.canUndo;
+      vm.canUndo = evt.detail.isEmpty ? false : evt.detail.canUndo;
       vm.canRedo = evt.detail.canRedo;
       vm.recognizing = false;
     });
@@ -271,6 +314,8 @@ export default {
         }
     });
 
+    /* for debug inspect */
+    window.e = editorEle.editor;
   },
   methods: {
     search: function () {
@@ -291,6 +336,8 @@ export default {
       var editorEle = this.$refs['editor']
       editorEle.editor.clear();
       this.canClear = false;
+      // this.canUndo = false;
+      // this.canRedo = false;
     },
     edit_undo: function () {
       var editorEle = this.$refs['editor']
@@ -304,9 +351,20 @@ export default {
       var editorEle = this.$refs['editor']
       editorEle.editor.convert();
     },
+    edit_get_strokes: function () {
+      var editorEle = this.$refs['editor']
+      // console.log('get strokes');
+      // console.log(editorEle.editor.model.rawStrokes);
+      return editorEle.editor.model.rawStrokes;
+    },
     test: function (str) {
-      console.log('test');
-      console.log(str)
+      // console.log('test');
+      // console.log(str)
+      const strokes = this.edit_get_strokes();
+      strokes.forEach((s, s_idx) => {
+        console.log(`canvas stroke[${s_idx}].x[0] = ${s.x[0]}`)
+      });
+      console.log('====')
     }
   }
 }
