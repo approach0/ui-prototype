@@ -2,11 +2,11 @@
 <div class="v-input v-text-field v-text-field--solo v-autocomplete v-select"
      style="flex: 1; width: 100%; margin: 0; min-height: 48px;">
   <div class="v-input__slot" style="padding: 0 12px;">
-    <div class="v-select__selections">
-      <v-chip v-for="(chip, idx) in chips"
+    <div id="chips_parent" class="v-select__selections">
+      <v-chip v-for="(chip, idx) in chips" :key="idx"
        :class="{'v-chip--selected': cur_chip == idx}"
        @click="sel_chip(idx)" @input="del_chip(idx)" close>
-      {{chip.str}}
+        <span v-html="chip.str"></span>
       </v-chip>
       <input id="draft_chip" v-model="draft_chip" type="text" role="combobox"
        @click="unsel_chip()" @keyup.delete="on_del" @keyup.enter="on_enter" />
@@ -28,17 +28,14 @@
 <script>
 var $ = require('jquery')
 import eventBus from './event-bus';
+import {mathjax_init, mathjax_tex_render} from './tex-render'
 
 export default {
   data: function () {
     return {
       'chips': [
-        /* {'str': 'prove'},
-        {'str': '$f(x) = ax+b$'},
-        {'str': '$x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}$'},
-        {'str': 'ax^2 + bx + c = 0'},
-        {'str': '$f(x) = ax+b$'},
-        {'str': '$\\frac a b$'} */
+        {'str': 'prove'},
+        {'str': '[imath]x^2 + y^2 = z^2[/imath]'}
       ],
       'cursor_pos': 0,
       'cur_chip': -1,
@@ -61,7 +58,7 @@ export default {
   mounted: function () {
     var vm = this;
     eventBus.$on('handwrite_tex', (tex, strokes) => {
-      vm.write_chip('$' + tex + '$', strokes);
+      vm.write_chip('[imath]' + tex + '[/imath]', strokes);
     });
 
     eventBus.$on('split_chip', () => {
@@ -72,6 +69,8 @@ export default {
       const pos = $('#draft_chip').prop('selectionStart');
       vm.cursor_pos = pos;
     });
+
+    mathjax_init();
   },
   methods: {
     split_chip: function(force) {
@@ -118,16 +117,24 @@ export default {
       eventBus.$emit('update_canvas_strokes', []);
     },
     write_chip: function (val, strokes) {
-      if (this.cur_chip < 0) {
+      var idx = this.cur_chip;
+      if (idx < 0) {
         /* allocate */
         this.chips.push({'str': val, 'strokes': strokes});
-        this.sel_chip(this.chips.length - 1);
+        idx = this.chips.length - 1; /* get the final son after push */
+        this.sel_chip(idx);
       } else {
-        const idx = this.cur_chip;
         this.$set(this.chips[idx], 'str', val);
         this.$set(this.chips[idx], 'strokes', strokes);
       }
       eventBus.$emit('update_canvas_pos');
+      this.render_chip(idx);
+    },
+    render_chip: function (idx) {
+      const scope = `#chips_parent span:nth-child(${idx + 1})`;
+      this.$nextTick(function () {
+        mathjax_tex_render(scope);
+      });
     },
     add_chip: function (s) {
       this.unsel_chip();
@@ -154,5 +161,13 @@ export default {
   background-color: white !important;
   opacity: 1 !important;
   border: 1px solid white;
+}
+.v-chip__content {
+  height: auto !important;
+  padding: 4px 4px 4px 12px !important;
+}
+
+.MathJax:focus, .mjx-chtml:focus, .MathJax_SVG:focus {
+  outline: none;
 }
 </style>

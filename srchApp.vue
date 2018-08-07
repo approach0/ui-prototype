@@ -90,7 +90,7 @@
     </v-list>
 
     <v-list dense class="pt-0">
-      <v-list-tile v-for="d in deck" @click="">
+      <v-list-tile v-for="(d, key) in deck" :key="key" @click="">
         <v-list-tile-action>
           <v-icon> {{d.type}} </v-icon>
         </v-list-tile-action>
