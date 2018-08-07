@@ -115,9 +115,9 @@
     <v-container>
     <ul style="list-style-type: none;">
       <li v-for="hit in hits">
-      <p class="sni-title"> {{hit.title}}</p>
-      <p class="sni-url">{{hit.url}}     </p>
-      <p class="snippet">{{hit.snippet}} </p>
+      <p class="sni-title" v-html="hit.title"></p>
+      <p class="sni-url">{{hit.url}}</p>
+      <p class="sni-snippet" v-html="hit.snippet"></p>
       </li>
     </ul>
     <v-layout justify-center>
@@ -441,5 +441,9 @@ div.editor {
   #menu {
     display: none;
   }
+}
+
+em.hl {
+  background-color: #FF9;
 }
 </style>

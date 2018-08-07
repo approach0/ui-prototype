@@ -11,7 +11,8 @@
       <input id="draft_chip" v-model="draft_chip" type="text" role="combobox"
        @click="unsel_chip()" @keyup.delete="on_del" @keyup.enter="on_enter" />
     </div>
-    <div class="v-input__append-inner" @click="clear_chips">
+    <div class="v-input__append-inner" style="cursor: pointer"
+      @click="clear_chips" v-if="chips.length">
       <v-icon>close</v-icon>
     </div>
 <!--
