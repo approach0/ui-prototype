@@ -104,6 +104,7 @@ export default {
       this.unsel_chip();
       this.chips.splice(idx, 1);
       eventBus.$emit('update_canvas_pos');
+      this.render_chip(-1);
     },
     sel_chip: function (idx) {
       if (idx >= 0) {
@@ -132,7 +133,8 @@ export default {
       this.render_chip(idx);
     },
     render_chip: function (idx) {
-      const scope = `#chips_parent span:nth-child(${idx + 1})`;
+      var scope = `#chips_parent span:nth-child(${idx + 1})`; /* only one */
+      if (idx < 0) scope = '#chips_parent span.v-chip'; /* render all */
       this.$nextTick(function () {
         mathjax_tex_render(scope);
       });

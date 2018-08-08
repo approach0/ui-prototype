@@ -77,7 +77,6 @@ function mathjax_print_errmsg (ele) {
 function mathjax_tex_render(scope_select) {
   $(scope_select).each(function() {
     var ele = $(this).get(0);
-    console.log(ele);
     MathJax.Hub.Queue(
       ["Typeset", MathJax.Hub, ele],
       [mathjax_print_errmsg, ele]
